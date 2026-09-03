@@ -1,3 +1,57 @@
+/* ================================================
+   NOIACORE THEME — NEO-NEOGLASS TOKEN INJECTION
+   
+   PVC-U ya tiene fondo #0a0a0f + scrollbar roja.
+   Inyectamos el sistema completo como override layer.
+   ================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  /* NOIACORE neon-red spectrum */
+  --nclr-red:         #ff073a;
+  --nclr-red-dim:     #ff4466;
+  --nclr-red-deep:    rgba(255,7,58,0.08);
+  --nclr-red-glow:    rgba(255,7,58,0.35);
+  
+  /* Token system override */
+  --background:       #0a0a0f;
+  --foreground:       #e0e0e0;
+  --card:             rgba(255,255,255,0.03);
+  --card-foreground:  #e0e0e0;
+  --muted:            #8b949e;
+  --muted-foreground: #8b949e;
+  --border:           rgba(255,255,255,0.07);
+  --input:            rgba(0,0,0,0.3);
+  --ring:             var(--nclr-red);
+}
+
+/* Wireframe grid overlay */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+body > * { position: relative; z-index: 1; }
+
+/* Glass utility class */
+.neo-glass {
+  background: rgba(255,255,255,0.03) !important;
+  backdrop-filter: blur(12px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.neo-glass:hover {
+  border-color: rgba(255,7,58,0.25) !important;
+  box-shadow: 0 0 16px rgba(255,7,58,0.1), 0 4px 16px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,7,58,0.04) !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
