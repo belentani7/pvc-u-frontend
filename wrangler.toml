@@ -1,0 +1,2 @@
+name = "pvc-u-frontend"
+pages_build_output_dir = "dist"
