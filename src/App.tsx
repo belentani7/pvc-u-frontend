@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Hero from './pages/Hero';
@@ -9,7 +8,7 @@ import './App.css';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
       <div className="min-h-screen bg-[#0a0a0f]">
         <Navbar />
         <Routes>

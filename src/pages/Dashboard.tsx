@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Activity, TrendingUp, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 // ========== NEO-NEOGLASS COMPONENTS ==========
+
+interface MetricCardProps {
+  title: string;
+  value: React.ReactNode;
+  icon: React.ReactNode;
+  trend?: string;
+  color?: string;
+}
 
 const NclSectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div className="text-[11px] font-mono font-bold tracking-[0.2em] text-nclr-red-dim border-b border-nclr-red/15 pb-2 mb-4 uppercase">
@@ -37,14 +45,14 @@ interface ValidationEvent {
 }
 
 const Dashboard: React.FC = () => {
-  const [metrics, setMetrics] = useState({
+  const [metrics] = useState({
     totalValidations: 1284,
     validationRate: 97.3,
     avgScore: 0.89,
     activeAlerts: 3,
   });
   
-  const [events, setEvents] = useState<ValidationEvent[]>([
+  const [events] = useState<ValidationEvent[]>([
     { id: 'abc123', domain: 'ecommerce', timestamp: '2026-09-03 14:32', valid: true, errors: 0, score: 0.95 },
     { id: 'def456', domain: 'salud', timestamp: '2026-09-03 14:30', valid: false, errors: 2, score: 0.45 },
     { id: 'ghi789', domain: 'finanzas', timestamp: '2026-09-03 14:28', valid: true, errors: 0, score: 0.92 },
