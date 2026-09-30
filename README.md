@@ -1,9 +1,37 @@
-# PVC-U Frontend — Dashboard Enterprise con Liquid Glass/Neon Aesthetic
-"""
-Dashboard para PVC-U con estética Liquid Glass + Neon Red del sistema Belentani Judas Experience.
+# PVC-U Frontend
 
-Stack: Vite 7 + React 19 + TypeScript 5.6 + Tailwind 4 + shadcn/ui
-Deploy: npm run preview → host on localhost or Vercel
+Dashboard para PVC-U con estética Liquid Glass + Neon Red.
 
-Path: C:\Users\USER\Documents\01_PROYECTOS\pvc-u-frontend\
-"""
+## Qué es
+
+Un panel de control construido sobre el sistema visual del universo Belentani: superficies de
+cristal, acento rojo neón y tipografía técnica.
+
+## Stack
+
+- **Vite 7** — build
+- **React 19** — interfaz
+- **TypeScript 5.6** — tipado
+- **Tailwind 4** — estilos
+- **shadcn/ui** — componentes
+
+## Puesta en marcha
+
+```bash
+npm install
+npm run dev
+```
+
+## Despliegue
+
+`npm run build` y servir `dist/`. Compatible con Vercel sin configuración extra.
+
+## Nota
+
+El README original tenía un bloque `"""` de Python y una ruta absoluta local
+(`C:\Users\USER\Documents\01_PROYECTOS\...`). Ambos se han retirado: una ruta de disco
+no significa nada para quien lee el repositorio.
+
+## Licencia
+
+Sin licencia declarada.
