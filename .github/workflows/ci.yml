@@ -1,16 +1,25 @@
-name: ci
+name: PVC-U frontend quality gate
+
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, 'fix/**']
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - run: npm install
-      - run: npm run build --if-present
-      - run: npm test --if-present
+          node-version: '22'
+          cache: 'npm'
+      - name: Install locked frontend dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: TypeScript/Vite build and deterministic local validation tests
+        run: npm run verify
