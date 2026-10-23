@@ -64,11 +64,12 @@ const Validation: React.FC = () => {
       {/* Form */}
       <div className="neo-glass glow-border p-6 space-y-5 mb-6">
         <NclSectionTitle>ENTRADA DE DATOS</NclSectionTitle>
+        <p className="nclr-muted text-xs mb-4">No pegues contraseñas ni documentos privados. Esta demo no conecta con modelos de IA.</p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label className="ncl-label">DOMINIO</label>
-            <select value={domain} onChange={(e) => setDomain(e.target.value)} className="ncl-select">
+            <select value={domain} onChange={(e) => { setDomain(e.target.value); setResult(null); }} className="ncl-select">
               {domains.map(d => <option key={d} value={d}>{d.toUpperCase()}</option>)}
             </select>
           </div>
