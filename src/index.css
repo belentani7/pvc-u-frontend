@@ -1,3 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-nclr-red: #ff073a;
+  --color-nclr-red-dim: #ff4466;
+  --color-nclr-muted: #8b949e;
+  --color-primary: #ff073a;
+  --color-primary-foreground: #ffffff;
+  --color-background: #0a0a0f;
+  --color-foreground: #e0e0e0;
+  --color-secondary: rgba(255, 255, 255, 0.05);
+  --color-secondary-foreground: #e0e0e0;
+  --color-destructive: #ff073a;
+  --color-destructive-foreground: #ffffff;
+  --color-muted: rgba(255, 255, 255, 0.03);
+  --color-muted-foreground: rgba(255, 255, 255, 0.5);
+  --color-accent: rgba(255, 7, 58, 0.1);
+  --color-accent-foreground: #ff073a;
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-foreground: #e0e0e0;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+}
+
 /* ================================================
    NOIACORE THEME — NEO-NEOGLASS TOKEN INJECTION
    
@@ -52,9 +77,7 @@ body > * { position: relative; z-index: 1; }
   box-shadow: 0 0 16px rgba(255,7,58,0.1), 0 4px 16px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,7,58,0.04) !important;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 /* Base styles for PVC-U Dashboard */
 @layer base {

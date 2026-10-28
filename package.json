@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
-    "build": "cp package-lock.json /tmp/pvc-lock-before.json && npm install --package-lock-only --save-dev --ignore-scripts --no-audit --no-fund @tailwindcss/postcss@4.3.3 && node -e \"const fs=require('fs');const a=JSON.parse(fs.readFileSync('/tmp/pvc-lock-before.json','utf8'));const b=JSON.parse(fs.readFileSync('package-lock.json','utf8'));const changes=Object.fromEntries(Object.entries(b.packages).filter(([k,v])=>JSON.stringify(a.packages[k])!==JSON.stringify(v)));console.log('LOCK_PATCH_BEGIN'+JSON.stringify({changes,removed:Object.keys(a.packages).filter(k=>!(k in b.packages))})+'LOCK_PATCH_END')\" && exit 1",
+    "build": "tsc && vite build",
     "preview": "vite preview --port 3000",
     "test": "node --test tests/local-validation.test.cjs",
     "verify": "npm run build && npm test"
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
