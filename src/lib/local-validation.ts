@@ -33,7 +33,15 @@ export function validateLocally(domain: string, prompt: string, response: string
   if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(response)) {
     warnings.push('Posible dirección de correo electrónico en la respuesta.');
   }
-  if (/(?:sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{20,}|Bearer\s+[A-Za-z0-9._~-]{16,})/.test(response)) {
+  // Heuristic only: patterns are intentionally conservative and never include the matched value in results.
+  const possibleSecrets = [
+    /\bsk-[A-Za-z0-9_-]{20,}/i,
+    /\bgh[pousr]_[A-Za-z0-9]{20,}/i,
+    /\bgithub_pat_[A-Za-z0-9_]{20,}/i,
+    /\bbearer\s+[A-Za-z0-9._~+/-]{16,}={0,2}/i,
+    /\bAKIA[0-9A-Z]{16}\b/,
+  ];
+  if (possibleSecrets.some(pattern => pattern.test(response))) {
     warnings.push('Posible token o secreto en la respuesta. No se almacena su valor.');
   }
   const answer = normalized(response);

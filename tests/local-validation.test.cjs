@@ -71,3 +71,25 @@ test('session records only aggregate metadata and returns immutable snapshots', 
   history.clearSessionEvents();
   assert.equal(history.getSessionEvents().length, 0);
 });
+
+test('recognizes common credential variants without including their values in warnings', () => {
+  const examples = [
+    'bearer ' + 'x'.repeat(32),
+    'GHP_' + 'a'.repeat(30),
+    'github_pat_' + 'b'.repeat(30),
+    'AKIA' + 'A'.repeat(16),
+    'SK-' + 'c'.repeat(24),
+  ];
+  for (const secret of examples) {
+    const result = validateLocally('general', 'Revisar respuesta', secret);
+    assert.equal(result.valid, false, `Expected secret prefix ${secret.slice(0, 5)} to be flagged`);
+    assert.ok(result.warnings.some(w => /token o secreto/.test(w)));
+    assert.ok(!JSON.stringify(result).includes(secret));
+  }
+});
+
+test('does not flag a short placeholder as a secret', () => {
+  const result = validateLocally('general', 'Revisar', 'Bearer placeholder');
+  assert.equal(result.valid, true);
+  assert.equal(result.warnings.length, 0);
+});
