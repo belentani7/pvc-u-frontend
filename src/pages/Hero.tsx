@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
         Continua Universal
       </h2>
       <p className="text-xl max-w-2xl mb-12 text-gray-400">
-        Garantiza que la IA no alucina, no filtra datos y cumple normativa regulatoria
+        Explora señales que pueden requerir revisión humana mediante reglas locales. No garantiza exactitud, seguridad ni cumplimiento normativo.
       </p>
       
       {/* Feature Cards */}
@@ -25,25 +25,25 @@ const Hero: React.FC = () => {
           onClick={() => navigate('/validate')}
         >
           <Shield className="w-12 h-12 mx-auto mb-4 neon-text" />
-          <h3 className="text-lg font-semibold mb-2">Validación Continua</h3>
+          <h3 className="text-lg font-semibold mb-2">Comprobación Local</h3>
           <p className="text-gray-400">
-            Esferas 0-4A verificando cada respuesta en tiempo real
+            Reglas deterministas de formato, posible inyección, correo y credenciales.
           </p>
         </div>
         
         <div className="glass-card p-6 glow-border float cursor-pointer" style={{ animationDelay: '0.5s' }}>
           <Zap className="w-12 h-12 mx-auto mb-4 neon-text" />
-          <h3 className="text-lg font-semibold mb-2">Auto-Corrección</h3>
+          <h3 className="text-lg font-semibold mb-2">Revisión Humana</h3>
           <p className="text-gray-400">
-            Loop iterativo corrige automáticamente fallos detectados
+            Muestra advertencias explicables; no altera ni regenera respuestas.
           </p>
         </div>
         
         <div className="glass-card p-6 glow-border float cursor-pointer" style={{ animationDelay: '1s' }}>
           <AlertTriangle className="w-12 h-12 mx-auto mb-4 neon-text" />
-          <h3 className="text-lg font-semibold mb-2">Compliance Enterprise</h3>
+          <h3 className="text-lg font-semibold mb-2">Límites Transparentes</h3>
           <p className="text-gray-400">
-            HIPAA, PCI-DSS, GDPR — perfiles por dominio regulatorio
+            Este prototipo no certifica HIPAA, PCI-DSS, RGPD ni otras normas.
           </p>
         </div>
       </div>
@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
           onClick={() => navigate('/validate')}
           className="bg-[#ff073a] hover:bg-[#e00635] text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200"
         >
-          Validar Respuesta
+          Comprobar Respuesta
         </button>
         <button
           onClick={() => navigate('/docs')}

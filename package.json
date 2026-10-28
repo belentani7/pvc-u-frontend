@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --port 3000",
     "build": "tsc && vite build",
-    "preview": "vite preview --port 3000"
+    "preview": "vite preview --port 3000",
+    "test": "node --test tests/local-validation.test.cjs",
+    "verify": "npm run build && npm test"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",

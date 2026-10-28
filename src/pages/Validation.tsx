@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, XCircle, AlertTriangle, Brain, ShieldCheck, Target, Sparkles } from 'lucide-react';
+import { validateLocally, type LocalValidationResult } from '../lib/local-validation';
+import { recordValidation } from '../lib/session-history';
 
 // ========== NEO-NEOGLASS COMPONENTS ==========
 
@@ -16,36 +18,24 @@ const SphereTag: React.FC<{ label: string; active?: boolean }> = ({ label, activ
   </span>
 );
 
-interface ValidationResult {
-  valid: boolean;
-  errors: string[];
-  warnings: string[];
-  score: number;
-  spheresExecuted: string[];
-}
-
 const Validation: React.FC = () => {
   const [domain, setDomain] = useState('ecommerce');
   const [prompt, setPrompt] = useState('');
   const [response, setResponse] = useState('');
-  const [result, setResult] = useState<ValidationResult | null>(null);
+  const [result, setResult] = useState<LocalValidationResult | null>(null);
   const [loading, setLoading] = useState(false);
 
   const domains = ['ecommerce', 'salud', 'finanzas', 'chatbot', 'web_design', 'general'];
 
-  const handleValidate = async () => {
+  const handleValidate = () => {
     setLoading(true);
-    setTimeout(() => {
-      const isIgnored = prompt.includes('ignora');
-      setResult({
-        valid: !isIgnored,
-        errors: isIgnored ? ['PVC-4A-01: Intento de inyección de prompt detectado'] : [],
-        warnings: response.includes('juan@') ? ['WRN-PII: Email detectado en respuesta'] : [],
-        score: isIgnored ? 0.3 : 0.95,
-        spheresExecuted: ['Sphere0', 'Sphere3A', 'Sphere4A'],
-      });
+    try {
+      const checked = validateLocally(domain, prompt, response);
+      recordValidation(domain, checked);
+      setResult(checked);
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -53,14 +43,14 @@ const Validation: React.FC = () => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-mono font-bold text-white mb-1" style={{textShadow: '0 0 16px rgba(255,7,58,0.3)'}}>VALIDACIÓN IA · PVC-U</h1>
-        <p className="nclr-muted text-xs font-mono tracking-wider">ESFERAS DE VALIDACIÓN · SISTEMA CONTRA DAÑOS ALUSIVOS</p>
+        <p className="nclr-muted text-xs font-mono tracking-wider">REGLAS LOCALES EXPLICABLES · NO CERTIFICAN SEGURIDAD NI CUMPLIMIENTO</p>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3 mb-8">
         {[
-          { icon: <Brain className="w-4 h-4" />, label: 'SPHERES', val: '6' },
-          { icon: <ShieldCheck className="w-4 h-4" />, label: 'STATUS', val: 'ONLINE' },
+          { icon: <Brain className="w-4 h-4" />, label: 'REGLAS', val: '4' },
+          { icon: <ShieldCheck className="w-4 h-4" />, label: 'MODO', val: 'LOCAL' },
           { icon: <Target className="w-4 h-4" />, label: 'DOMAINS', val: domains.length.toString() },
         ].map((s, i) => (
           <div key={i} className="neo-glass p-3 text-center ncl-anim-float" style={{animationDelay: `${i * 0.4}s`}}>
@@ -74,41 +64,43 @@ const Validation: React.FC = () => {
       {/* Form */}
       <div className="neo-glass glow-border p-6 space-y-5 mb-6">
         <NclSectionTitle>ENTRADA DE DATOS</NclSectionTitle>
+        <p className="nclr-muted text-xs mb-4">No pegues contraseñas ni documentos privados. Esta demo no conecta con modelos de IA.</p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="ncl-label">DOMINIO</label>
-            <select value={domain} onChange={(e) => setDomain(e.target.value)} className="ncl-select">
+            <label htmlFor="pvc-domain" className="ncl-label">DOMINIO</label>
+            <select id="pvc-domain" value={domain} onChange={(e) => { setDomain(e.target.value); setResult(null); }} className="ncl-select">
               {domains.map(d => <option key={d} value={d}>{d.toUpperCase()}</option>)}
             </select>
           </div>
           <div>
-            <label className="ncl-label">SPHERE TARGET</label>
+            <p className="ncl-label">REGLAS EVALUADAS</p>
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {['Sphere0', 'Sphere3A', 'Sphere4A'].map(s => <SphereTag key={s} label={s} active />)}
+              {['Formato', 'Instrucciones', 'PII', 'Afirmaciones'].map(s => <SphereTag key={s} label={s} active />)}
             </div>
           </div>
         </div>
 
         <div>
-          <label className="ncl-label">PROMPT</label>
-          <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Escribe el prompt del usuario..." className="ncl-input min-h-[80px]" />
+          <label htmlFor="pvc-prompt" className="ncl-label">PROMPT</label>
+          <textarea id="pvc-prompt" value={prompt} onChange={(e) => { setPrompt(e.target.value); setResult(null); }} placeholder="Escribe el prompt del usuario..." maxLength={10000} className="ncl-input min-h-[80px]" />
         </div>
 
         <div>
-          <label className="ncl-label">RESPUESTA DEL AGENTE IA</label>
-          <textarea value={response} onChange={(e) => setResponse(e.target.value)} placeholder="Escribe la respuesta generada..." className="ncl-input min-h-[80px]" />
+          <label htmlFor="pvc-response" className="ncl-label">RESPUESTA DEL AGENTE IA</label>
+          <textarea id="pvc-response" value={response} onChange={(e) => { setResponse(e.target.value); setResult(null); }} placeholder="Escribe la respuesta generada..." maxLength={10000} className="ncl-input min-h-[80px]" />
         </div>
 
         <button onClick={handleValidate} disabled={loading || !prompt || !response} className="w-full ncl-btn ncl-btn--primary text-sm py-3 disabled:opacity-40">
-          {loading ? 'VALIDANDO...' : '▶ EJECUTAR VALIDACIÓN'}
+          {loading ? 'COMPROBANDO...' : '▶ COMPROBAR REGLAS LOCALES'}
         </button>
       </div>
 
       {/* Results */}
       {result && (
-        <div className="neo-glass glow-border p-6">
-          <NclSectionTitle>RESULTADO</NclSectionTitle>
+        <div className="neo-glass glow-border p-6" role="status" aria-live="polite">
+          <NclSectionTitle>COMPROBACIÓN HEURÍSTICA LOCAL</NclSectionTitle>
+          <p className="text-xs text-yellow-200 mb-4">No se envía la entrada a un servidor. Estas reglas no prueban que la respuesta sea correcta, segura o conforme a ninguna normativa.</p>
           
           {/* Score display */}
           <div className="flex items-center gap-6 mb-6 bg-black/20 rounded-lg p-4">
@@ -116,14 +108,14 @@ const Validation: React.FC = () => {
               {result.valid ? <CheckCircle className="w-7 h-7 text-green-400" /> : <XCircle className="w-7 h-7 text-nclr-red" />}
             </div>
             <div className="flex-1">
-              <div className="font-mono font-bold text-base mb-1">{result.valid ? '✅ VALIDADO CORRECTAMENTE' : '❌ VALIDACIÓN FALLIDA'}</div>
+              <div className="font-mono font-bold text-base mb-1">{result.valid ? 'SIN SEÑALES EN ESTAS REGLAS' : 'REQUIERE REVISIÓN HUMANA'}</div>
               <div className="flex gap-2">
-                {result.spheresExecuted.map(s => <SphereTag key={s} label={s} />)}
+                {result.checksExecuted.map(s => <SphereTag key={s} label={s} />)}
               </div>
             </div>
             <div className="text-right">
-              <div className="font-mono text-2xl font-bold" style={{color: result.score > 0.8 ? '#4ade80' : '#ff073a'}}>{(result.score * 100).toFixed(0)}%</div>
-              <div className="text-[10px] nclr-muted">SCORE</div>
+              <div className="font-mono text-2xl font-bold" style={{color: result.valid ? '#4ade80' : '#ff073a'}}>{result.errors.length + result.warnings.length}</div>
+              <div className="text-[10px] nclr-muted">SEÑALES</div>
             </div>
           </div>
 
@@ -157,7 +149,7 @@ const Validation: React.FC = () => {
 
           {!result.errors.length && !result.warnings.length && result.valid && (
             <div className="text-green-400 text-sm font-mono flex items-center gap-2">
-              <CheckCircle className="w-4 h-4" /> No se detectaron problemas — todo limpio.
+              <CheckCircle className="w-4 h-4" /> No se detectaron señales con estas reglas limitadas. Sigue siendo necesaria la revisión humana.
             </div>
           )}
         </div>
