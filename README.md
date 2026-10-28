@@ -9,16 +9,16 @@ cristal, acento rojo neón y tipografía técnica.
 
 ## Stack
 
-- **Vite 7** — build
+- **Vite 6** — compilación verificada en CI
 - **React 19** — interfaz
 - **TypeScript 5.6** — tipado
-- **Tailwind 4** — estilos
-- **shadcn/ui** — componentes
+- **Tailwind CSS 4** + `@tailwindcss/postcss` — estilos con tokens definidos en `src/index.css`
+- **Componentes React propios** + iconos Lucide — interfaz
 
 ## Puesta en marcha
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
