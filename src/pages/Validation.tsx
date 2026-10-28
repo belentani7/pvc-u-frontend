@@ -68,13 +68,13 @@ const Validation: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <label className="ncl-label">DOMINIO</label>
-            <select value={domain} onChange={(e) => { setDomain(e.target.value); setResult(null); }} className="ncl-select">
+            <label htmlFor="pvc-domain" className="ncl-label">DOMINIO</label>
+            <select id="pvc-domain" value={domain} onChange={(e) => { setDomain(e.target.value); setResult(null); }} className="ncl-select">
               {domains.map(d => <option key={d} value={d}>{d.toUpperCase()}</option>)}
             </select>
           </div>
           <div>
-            <label className="ncl-label">SPHERE TARGET</label>
+            <p className="ncl-label">REGLAS EVALUADAS</p>
             <div className="flex flex-wrap gap-1.5 pt-1">
               {['Formato', 'Instrucciones', 'PII', 'Afirmaciones'].map(s => <SphereTag key={s} label={s} active />)}
             </div>
@@ -82,13 +82,13 @@ const Validation: React.FC = () => {
         </div>
 
         <div>
-          <label className="ncl-label">PROMPT</label>
-          <textarea value={prompt} onChange={(e) => { setPrompt(e.target.value); setResult(null); }} placeholder="Escribe el prompt del usuario..." maxLength={10000} className="ncl-input min-h-[80px]" />
+          <label htmlFor="pvc-prompt" className="ncl-label">PROMPT</label>
+          <textarea id="pvc-prompt" value={prompt} onChange={(e) => { setPrompt(e.target.value); setResult(null); }} placeholder="Escribe el prompt del usuario..." maxLength={10000} className="ncl-input min-h-[80px]" />
         </div>
 
         <div>
-          <label className="ncl-label">RESPUESTA DEL AGENTE IA</label>
-          <textarea value={response} onChange={(e) => { setResponse(e.target.value); setResult(null); }} placeholder="Escribe la respuesta generada..." maxLength={10000} className="ncl-input min-h-[80px]" />
+          <label htmlFor="pvc-response" className="ncl-label">RESPUESTA DEL AGENTE IA</label>
+          <textarea id="pvc-response" value={response} onChange={(e) => { setResponse(e.target.value); setResult(null); }} placeholder="Escribe la respuesta generada..." maxLength={10000} className="ncl-input min-h-[80px]" />
         </div>
 
         <button onClick={handleValidate} disabled={loading || !prompt || !response} className="w-full ncl-btn ncl-btn--primary text-sm py-3 disabled:opacity-40">

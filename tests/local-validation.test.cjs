@@ -93,3 +93,12 @@ test('does not flag a short placeholder as a secret', () => {
   assert.equal(result.valid, true);
   assert.equal(result.warnings.length, 0);
 });
+
+test('production CSS emits the PVC-U neon theme utilities', () => {
+  const assets = fs.readdirSync(path.resolve(__dirname, '../dist/assets')).filter(name => name.endsWith('.css'));
+  assert.ok(assets.length > 0, 'Vite must emit a CSS bundle');
+  const css = assets.map(name => fs.readFileSync(path.resolve(__dirname, '../dist/assets', name), 'utf8')).join('\n');
+  for (const selector of ['.text-nclr-red', '.text-nclr-muted', '.bg-nclr-red']) {
+    assert.ok(css.includes(selector), `Missing compiled Tailwind utility: ${selector}`);
+  }
+});
